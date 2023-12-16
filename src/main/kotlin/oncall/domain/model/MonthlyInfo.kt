@@ -1,4 +1,4 @@
-package oncall.domain
+package oncall.domain.model
 
 import oncall.constant.Constants.NUM_OF_DAYS_28
 import oncall.constant.Constants.NUM_OF_DAYS_30

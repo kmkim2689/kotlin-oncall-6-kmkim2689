@@ -1,7 +1,7 @@
 package oncall.controller
 
 import oncall.domain.CallManager
-import oncall.domain.Requirement
+import oncall.domain.model.Requirement
 import oncall.view.InputView
 
 object CallController {

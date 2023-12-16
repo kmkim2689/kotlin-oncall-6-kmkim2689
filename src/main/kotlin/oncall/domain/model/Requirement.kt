@@ -1,4 +1,4 @@
-package oncall.domain
+package oncall.domain.model
 
 data class Requirement(
     val month: Int,
