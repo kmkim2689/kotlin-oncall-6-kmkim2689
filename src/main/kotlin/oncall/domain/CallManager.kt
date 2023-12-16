@@ -4,48 +4,77 @@ import oncall.domain.model.CallInfo
 import oncall.domain.model.DayOfWeekInfo
 import oncall.domain.model.MonthlyInfo
 import oncall.domain.model.Requirement
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CallManager(
     private val requirement: Requirement
 ) {
-    private val weekdayMembers = requirement.weekdayCallMembers
-    private val weekendMembers = requirement.weekendCallMembers
+    private var weekdayMembers = requirement.weekdayCallMembers.toMutableList()
+    private var weekendMembers = requirement.weekendCallMembers.toMutableList()
     private val numOfWorkers = weekdayMembers.size
+    private val month = requirement.month
+    private val startDay = requirement.startDay
+    private val monthlyInfo = MonthlyInfo.getMonthlyInfoByNumOfMonth(month)
+    private val weekendRemainders = getWeekendRemainders(startDay)
+    private val holidays = monthlyInfo!!.holidays
+    private val numOfDays = monthlyInfo!!.numOfDays
+    private val remaindersByStartDayOfWeek = getRemaindersByStartDayOfWeek(getDayOfWeekInfoByDayOfWeek(startDay)!!)
+
+    private val callResult = ArrayList<CallInfo>()
 
     fun getCallData(): List<CallInfo> {
-        TODO("각 일의 요일에 따라서 근무자 초기에 배정하는 기능")
-        TODO("초기의 결과를 검증하여 2일 연속 근무자 존재 시 뒷 사람과 순서를 바꾸는 기능")
-        TODO("최종 결과를 반환하는 기능")
+        setInitialCallData()
+        getValidatedCallData()
+        return callResult
     }
 
-    fun getInitialCallData(): List<CallInfo> {
-        val callResult = ArrayList<CallInfo>()
-        val month = requirement.month
-        val startDay = requirement.startDay
-
-        val monthlyInfo = MonthlyInfo.getMonthlyInfoByNumOfMonth(month)
-
-        val weekendRemainders = getWeekendRemainders(startDay)
-        val holidays = monthlyInfo!!.holidays
-        val numOfDays = monthlyInfo.numOfDays
-        val remaindersByStartDayOfWeek = getRemaindersByStartDayOfWeek(getDayOfWeekInfoByDayOfWeek(startDay)!!)
-
+    fun setInitialCallData() {
         var weekdayIdx = 0
         var weekendIdx = 0
 
         for (i in 1..numOfDays) {
             val dayOfWeekInfo = getDayOfWeekInfoByIndex(remaindersByStartDayOfWeek.indexOf(i % 7))
-            if (i % 7 in weekendRemainders || i in holidays) {
+
+            if (i in holidays) {
                 callResult.add(CallInfo(month, i, dayOfWeekInfo.dayOfWeek, weekendMembers[weekendIdx % numOfWorkers], true))
                 weekendIdx++
                 continue
             }
 
-            callResult.add(CallInfo(month, i, dayOfWeekInfo.dayOfWeek, weekdayMembers[weekdayIdx % numOfWorkers], false))
-            weekdayIdx++
+            if (i % 7 in weekendRemainders) {
+                callResult.add(CallInfo(month, i, dayOfWeekInfo.dayOfWeek, weekendMembers[weekendIdx % numOfWorkers], false))
+                weekendIdx++
+                continue
+            }
+
+            if (i % 7 !in weekendRemainders) {
+                callResult.add(CallInfo(month, i, dayOfWeekInfo.dayOfWeek, weekdayMembers[weekdayIdx % numOfWorkers], false))
+                weekdayIdx++
+            }
+        }
+    }
+
+    fun getValidatedCallData() {
+        for (i in 0 until callResult.size - 2) {
+            if (callResult[i].worker == callResult[i + 1].worker) {
+                if (callResult[i + 1].isHoliday || callResult[i + 1].dayOfMonth % 7 in weekendRemainders) {
+                    val originalWorkerIndex = weekendMembers.indexOf(callResult[i].worker)
+                    val alternativeWorkerIndex = originalWorkerIndex + 1
+                    Collections.swap(weekendMembers, originalWorkerIndex, alternativeWorkerIndex)
+                }
+
+                if (!callResult[i + 1].isHoliday && callResult[i + 1].dayOfMonth % 7 !in weekendRemainders) {
+                    val originalWorkerIndex = weekdayMembers.indexOf(callResult[i].worker)
+                    val alternativeWorkerIndex = originalWorkerIndex + 1
+                    Collections.swap(weekdayMembers, originalWorkerIndex, alternativeWorkerIndex)
+                }
+
+            }
         }
 
-        return callResult
+        callResult.clear()
+        setInitialCallData()
     }
 
     fun getDayOfWeekInfoByIndex(index: Int) = when (index) {
