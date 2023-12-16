@@ -29,25 +29,22 @@ class CallManager(
         return callResult
     }
 
-    fun setInitialCallData() {
+    private fun setInitialCallData() {
         var weekdayIdx = 0
         var weekendIdx = 0
 
         for (i in 1..numOfDays) {
             val dayOfWeekInfo = getDayOfWeekInfoByIndex(remaindersByStartDayOfWeek.indexOf(i % 7))
-
             if (i in holidays) {
                 callResult.add(CallInfo(month, i, dayOfWeekInfo.dayOfWeek, weekendMembers[weekendIdx % numOfWorkers], true))
                 weekendIdx++
                 continue
             }
-
             if (i % 7 in weekendRemainders) {
                 callResult.add(CallInfo(month, i, dayOfWeekInfo.dayOfWeek, weekendMembers[weekendIdx % numOfWorkers], false))
                 weekendIdx++
                 continue
             }
-
             if (i % 7 !in weekendRemainders) {
                 callResult.add(CallInfo(month, i, dayOfWeekInfo.dayOfWeek, weekdayMembers[weekdayIdx % numOfWorkers], false))
                 weekdayIdx++
@@ -55,26 +52,33 @@ class CallManager(
         }
     }
 
-    fun getValidatedCallData() {
+    private fun getValidatedCallData() {
         for (i in 0 until callResult.size - 2) {
-            if (callResult[i].worker == callResult[i + 1].worker) {
-                if (callResult[i + 1].isHoliday || callResult[i + 1].dayOfMonth % 7 in weekendRemainders) {
-                    val originalWorkerIndex = weekendMembers.indexOf(callResult[i].worker)
-                    val alternativeWorkerIndex = originalWorkerIndex + 1
-                    Collections.swap(weekendMembers, originalWorkerIndex, alternativeWorkerIndex)
-                }
-
-                if (!callResult[i + 1].isHoliday && callResult[i + 1].dayOfMonth % 7 !in weekendRemainders) {
-                    val originalWorkerIndex = weekdayMembers.indexOf(callResult[i].worker)
-                    val alternativeWorkerIndex = originalWorkerIndex + 1
-                    Collections.swap(weekdayMembers, originalWorkerIndex, alternativeWorkerIndex)
-                }
-
-            }
+            validateCallData(i)
         }
 
         callResult.clear()
         setInitialCallData()
+    }
+
+    private fun validateCallData(i: Int) {
+        if (callResult[i].worker == callResult[i + 1].worker) {
+            swapWorkerOrder(i)
+        }
+    }
+
+    private fun swapWorkerOrder(i: Int) {
+        if (callResult[i + 1].isHoliday || callResult[i + 1].dayOfMonth % 7 in weekendRemainders) {
+            val originalWorkerIndex = weekendMembers.indexOf(callResult[i].worker)
+            val alternativeWorkerIndex = originalWorkerIndex + 1
+            Collections.swap(weekendMembers, originalWorkerIndex, alternativeWorkerIndex)
+        }
+
+        if (!callResult[i + 1].isHoliday && callResult[i + 1].dayOfMonth % 7 !in weekendRemainders) {
+            val originalWorkerIndex = weekdayMembers.indexOf(callResult[i].worker)
+            val alternativeWorkerIndex = originalWorkerIndex + 1
+            Collections.swap(weekdayMembers, originalWorkerIndex, alternativeWorkerIndex)
+        }
     }
 
     fun getDayOfWeekInfoByIndex(index: Int) = when (index) {
