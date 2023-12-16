@@ -9,6 +9,7 @@ import oncall.constant.StepMessages.STEP_INPUT_WEEKDAY_CALL
 import oncall.constant.StepMessages.STEP_INPUT_WEEKEND_CALL
 import oncall.util.isStartDayInputValid
 import oncall.util.isWeekdayCallInputValid
+import oncall.util.isWeekendCallInputValid
 
 object InputView {
     fun getCallStartInfo(): List<String> = try {
@@ -26,10 +27,11 @@ object InputView {
         val weekdayCallMembers = Console.readLine().trim().split(SEPARATOR_INPUT)
         weekdayCallMembers.isWeekdayCallInputValid()
 
-//        print(STEP_INPUT_WEEKEND_CALL)
-//        val weekendCallMembers = Console.readLine().trim().split(SEPARATOR_INPUT)
-//
-//
+        print(STEP_INPUT_WEEKEND_CALL)
+        val weekendCallMembers = Console.readLine().trim().split(SEPARATOR_INPUT)
+        weekendCallMembers.isWeekendCallInputValid(weekdayCallMembers)
+
+        listOf(weekdayCallMembers, weekendCallMembers)
     } catch (e: IllegalArgumentException) {
         println("$ERROR ${e.message}")
         getCallMembers()

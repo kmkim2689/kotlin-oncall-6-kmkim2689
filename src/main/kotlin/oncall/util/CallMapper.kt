@@ -26,6 +26,14 @@ fun List<String>.isWeekdayCallInputValid() {
     }
 }
 
+fun List<String>.isWeekendCallInputValid(weekdayMembers: List<String>) {
+    isWeekdayCallInputValid()
+    if (this.size != weekdayMembers.size) throwInvalidInputException()
+    this.sorted().zip(weekdayMembers.sorted()) { weekendMember, weekdayMember ->
+        if (weekendMember != weekdayMember) throwInvalidInputException()
+    }
+}
+
 fun throwInvalidInputException() {
     throw IllegalArgumentException(EXCEPTION_INVALID_VALUE)
 }
