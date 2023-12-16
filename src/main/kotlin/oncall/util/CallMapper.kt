@@ -1,5 +1,6 @@
 package oncall.util
 
+import net.bytebuddy.pool.TypePool.Resolution.Illegal
 import oncall.constant.Constants.FRIDAY
 import oncall.constant.Constants.MONDAY
 import oncall.constant.Constants.SATURDAY
@@ -14,11 +15,14 @@ val months = (1..12).map { it.toString() }.toList()
 val days = listOf(SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY)
 
 fun List<String>.isStartDayInputValid() {
-    if (size != 2) throw IllegalArgumentException(EXCEPTION_INVALID_VALUE)
-    if (this[0] !in months) throw IllegalArgumentException(EXCEPTION_INVALID_VALUE)
-    if (this[1] !in days) throw IllegalArgumentException(EXCEPTION_INVALID_VALUE)
+    if (size != 2 || this[0] !in months || this[1] !in days) throwInvalidInputException()
 }
 
 fun List<String>.isWeekdayCallInputValid() {
-    if (size !in (5..35)) throw IllegalArgumentException(EXCEPTION_INVALID_VALUE)
+    if (size !in (5..35)) throwInvalidInputException()
+    if (size != this.toSet().size) throwInvalidInputException()
+}
+
+fun throwInvalidInputException() {
+    throw IllegalArgumentException(EXCEPTION_INVALID_VALUE)
 }
