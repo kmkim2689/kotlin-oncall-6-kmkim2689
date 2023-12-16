@@ -13,16 +13,8 @@ import kotlin.IllegalArgumentException
 val months = (1..12).map { it.toString() }.toList()
 val days = listOf(SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY)
 
-fun List<String>.isStartDayInputSizeValid() {
+fun List<String>.isStartDayInputValid() {
     if (size != 2) throw java.lang.IllegalArgumentException(EXCEPTION_INVALID_VALUE)
-}
-
-fun String.toValidatedMonth(): String {
-    if (this !in months) throw IllegalArgumentException(EXCEPTION_INVALID_VALUE)
-    return this
-}
-
-fun String.toValidatedDay(): String {
-    if (this !in days) throw IllegalArgumentException(EXCEPTION_INVALID_VALUE)
-    return this
+    if (this[0] !in months) throw IllegalArgumentException(EXCEPTION_INVALID_VALUE)
+    if (this[1] !in days) throw IllegalArgumentException(EXCEPTION_INVALID_VALUE)
 }

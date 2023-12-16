@@ -1,6 +1,8 @@
 package oncall.constant
 
 object Constants {
+    const val SEPARATOR_INPUT = ","
+
     const val SUNDAY = "일"
     const val MONDAY = "월"
     const val TUESDAY = "화"
