@@ -21,6 +21,9 @@ fun List<String>.isStartDayInputValid() {
 fun List<String>.isWeekdayCallInputValid() {
     if (size !in (5..35)) throwInvalidInputException()
     if (size != this.toSet().size) throwInvalidInputException()
+    for (elem in this) {
+        if (elem.length !in (1..5)) throwInvalidInputException()
+    }
 }
 
 fun throwInvalidInputException() {
