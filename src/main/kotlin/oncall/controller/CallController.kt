@@ -3,6 +3,7 @@ package oncall.controller
 import oncall.domain.CallManager
 import oncall.domain.model.Requirement
 import oncall.view.InputView
+import oncall.view.OutputView
 
 object CallController {
 
@@ -10,7 +11,8 @@ object CallController {
 
     fun startCallDecision() {
         initializeCallManager()
-
+        val callResult = callManager.getCallData()
+        OutputView.printResult(callResult)
     }
 
     private fun initializeCallManager() {

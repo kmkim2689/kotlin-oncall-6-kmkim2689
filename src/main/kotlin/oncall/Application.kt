@@ -1,10 +1,9 @@
 package oncall
 
+import oncall.controller.CallController
 import oncall.util.isWeekendCallInputValid
 import oncall.util.throwInvalidInputException
 
 fun main() {
-    listOf("r", "r", "a").sorted().zip(listOf("a", "r", "r").sorted()) { weekendMember, weekdayMember ->
-        if (weekendMember != weekdayMember) throwInvalidInputException() else println("same")
-    }
+    CallController.startCallDecision()
 }

@@ -13,7 +13,7 @@ import oncall.util.isWeekendCallInputValid
 
 object InputView {
     fun getCallStartInfo(): List<String> = try {
-        println(STEP_INPUT_START_DAY)
+        print(STEP_INPUT_START_DAY)
         val callStartInfo = Console.readLine().trim().split(SEPARATOR_INPUT)
         callStartInfo.isStartDayInputValid()
         callStartInfo
