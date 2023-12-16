@@ -24,7 +24,8 @@
   - [x] **만약 주말 비상근무 순서가 잘못 입력되었을 경우, ***평일부터*** 다시 입력한다.**
 
 - [ ] Controller : InputView로부터 얻어온 값을 Domain으로 전달하고, Domain으로부터 처리받은 결과를 OutputView에 전달하는 기능
-  - [ ] 입력받은 값을 모아놓은 'Requirement' 데이터 클래스로 만들어 Domain으로 전달
+  - [x] 입력받은 값을 모아놓은 'Requirement' 데이터 클래스로 만들어놓기
+  - [ ] Requirement를 Domain으로 전달
   - [ ] Domain으로부터 산출받은 결과값을 OutputView로 전달
 
 - [ ] Domain : 입력받은 'Requirement' 데이터를 활용해 비상근무일 배정하는 기능
