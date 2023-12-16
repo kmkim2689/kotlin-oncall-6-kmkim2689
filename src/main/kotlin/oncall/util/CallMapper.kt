@@ -1,18 +1,17 @@
 package oncall.util
 
-import net.bytebuddy.pool.TypePool.Resolution.Illegal
-import oncall.constant.Constants.FRIDAY
-import oncall.constant.Constants.MONDAY
-import oncall.constant.Constants.SATURDAY
-import oncall.constant.Constants.SUNDAY
-import oncall.constant.Constants.THURSDAY
-import oncall.constant.Constants.TUESDAY
-import oncall.constant.Constants.WEDNESDAY
+import oncall.constant.Constants.DOW_FRIDAY
+import oncall.constant.Constants.DOW_MONDAY
+import oncall.constant.Constants.DOW_SATURDAY
+import oncall.constant.Constants.DOW_SUNDAY
+import oncall.constant.Constants.DOW_THURSDAY
+import oncall.constant.Constants.DOW_TUESDAY
+import oncall.constant.Constants.DOW_WEDNESDAY
 import oncall.constant.ExceptionMessages.EXCEPTION_INVALID_VALUE
 import kotlin.IllegalArgumentException
 
 val months = (1..12).map { it.toString() }.toList()
-val days = listOf(SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY)
+val days = listOf(DOW_SUNDAY, DOW_MONDAY, DOW_TUESDAY, DOW_WEDNESDAY, DOW_THURSDAY, DOW_FRIDAY, DOW_SATURDAY)
 
 fun List<String>.isStartDayInputValid() {
     if (size != 2 || this[0] !in months || this[1] !in days) throwInvalidInputException()

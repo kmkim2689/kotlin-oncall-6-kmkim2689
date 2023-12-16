@@ -29,10 +29,11 @@
   - [ ] Domain으로부터 산출받은 결과값을 OutputView로 전달
 
 - [ ] Domain : 입력받은 'Requirement' 데이터를 활용해 비상근무일 배정하는 기능
-  - [ ] models
+  - [x] models
     - [x] MonthlyInfo : 각 월 별로 월 숫자, 날의 수와 공휴일이 있는 날짜의 리스트로 구성된 Enum Class
     - [x] Requirement : 입력받은 요구사항(월, 시작요일, 평일비상근무자들, 주말비상근무자들)
     - [x] CallInfo : 근무월, 근무일, 근무요일, 닉네임, 공휴일 여부(토요일, 일요일 제외)로 이뤄진 비상근무 일정에 대한 아이템
+    - [x] DayOfWeekInfo : 각 근무 요일 문자열과 휴일 여부 정보를 담은 enum class
   - [ ] domain classes
     - [ ] CallManager : 비상 근무에 대한 데이터를 보존하고 비상근무 일정을 결정하는 클래스
       - [ ] 순서와 평일/주말을 고려하여 근무일을 결정하는 기능
