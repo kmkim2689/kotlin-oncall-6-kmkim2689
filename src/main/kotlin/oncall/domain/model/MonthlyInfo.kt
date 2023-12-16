@@ -20,5 +20,11 @@ enum class MonthlyInfo(
     SEPTEMBER(9, NUM_OF_DAYS_30, emptyList()),
     OCTOBER(10, NUM_OF_DAYS_31, listOf(3, 9)),
     NOVEMBER(11, NUM_OF_DAYS_30, emptyList()),
-    DECEMBER(12, NUM_OF_DAYS_31, listOf(25))
+    DECEMBER(12, NUM_OF_DAYS_31, listOf(25));
+
+    companion object {
+        fun getMonthlyInfoByNumOfMonth(month: Int): MonthlyInfo? {
+            return MonthlyInfo.entries.find { it.month == month }
+        }
+    }
 }
