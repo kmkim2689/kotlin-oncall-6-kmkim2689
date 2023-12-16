@@ -23,22 +23,23 @@
   - [x] 만약 평일 비상근무자들과 같은 이름들로만 구성되지 않았다면, 예외를 발생시킨다.
   - [x] **만약 주말 비상근무 순서가 잘못 입력되었을 경우, ***평일부터*** 다시 입력한다.**
 
-- [ ] Controller : InputView로부터 얻어온 값을 Domain으로 전달하고, Domain으로부터 처리받은 결과를 OutputView에 전달하는 기능
+- [x] Controller : InputView로부터 얻어온 값을 Domain으로 전달하고, Domain으로부터 처리받은 결과를 OutputView에 전달하는 기능
   - [x] 입력받은 값을 모아놓은 'Requirement' 데이터 클래스로 만들어놓기
   - [x] Requirement를 Domain으로 전달
-  - [ ] Domain으로부터 산출받은 결과값을 OutputView로 전달
+  - [x] Domain으로부터 산출받은 결과값을 OutputView로 전달
 
-- [ ] Domain : 입력받은 'Requirement' 데이터를 활용해 비상근무일 배정하는 기능
+- [x] Domain : 입력받은 'Requirement' 데이터를 활용해 비상근무일 배정하는 기능
   - [x] models
     - [x] MonthlyInfo : 각 월 별로 월 숫자, 날의 수와 공휴일이 있는 날짜의 리스트로 구성된 Enum Class
     - [x] Requirement : 입력받은 요구사항(월, 시작요일, 평일비상근무자들, 주말비상근무자들)
     - [x] CallInfo : 근무월, 근무일, 근무요일, 닉네임, 공휴일 여부(토요일, 일요일 제외)로 이뤄진 비상근무 일정에 대한 아이템
     - [x] DayOfWeekInfo : 각 근무 요일 문자열과 휴일 여부 정보를 담은 enum class
-  - [ ] domain classes
-    - [ ] CallManager : 비상 근무에 대한 데이터를 보존하고 비상근무 일정을 결정하는 클래스
+  - [x] domain classes
+    - [x] CallManager : 비상 근무에 대한 데이터를 보존하고 비상근무 일정을 결정하는 클래스
       - [x] 순서와 평일/주말을 고려하여 근무일을 결정하는 기능
-      - [ ] 배정에 대한 검증 및 수정 기능
-        - [ ] 각 CallInfo 아이템 별로 뒤의 순서의 아이템과 비교하여, 같다면 그 다음의 순서와 교체하는 기능
-      - [ ] 최종 결과를 CallInfo의 리스트로 반환하는 기능
+      - [x] 배정에 대한 검증 및 수정 기능
+        - [x] 각 CallInfo 아이템 별로 뒤의 순서의 아이템과 비교하여, 같다면 그 다음의 순서와 교체하는 기능
+      - [x] 최종 결과를 CallInfo의 리스트로 반환하는 기능
 
-- [ ] OutputView : 배정 결과로 전달받은 리스트를 순회하여 한 줄 씩 출력하는 함수 구현
+- [x] OutputView : 배정 결과로 전달받은 리스트를 순회하여 한 줄 씩 출력하는 함수 구현
+  - [x] 전달받은 리스트를 하나하나 순회해가며 하나의 문자열로 합쳐 출력하는 기능
