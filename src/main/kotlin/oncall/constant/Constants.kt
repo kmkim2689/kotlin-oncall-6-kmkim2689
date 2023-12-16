@@ -10,4 +10,8 @@ object Constants {
     const val THURSDAY = "목"
     const val FRIDAY = "금"
     const val SATURDAY = "토"
+
+    const val NUM_OF_DAYS_31 = 31
+    const val NUM_OF_DAYS_30 = 30
+    const val NUM_OF_DAYS_28 = 28
 }
